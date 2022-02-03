@@ -1,111 +1,79 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
-
-import React from 'react';
-import type {Node} from 'react';
+import React, { useState, useRef } from 'react';
 import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
   Text,
-  useColorScheme,
   View,
+  TextInput,
+  KeyboardAvoidingView,
+  FlatList,
+  SafeAreaView,
+  StyleSheet,
 } from 'react-native';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+const Item = ({ todo }) => (
+  <View style={styles.container2}>
+    <Text style={styles.item}>{todo}</Text>
+  </View>
+);
+const App = () => {
+  const [todo, setTodo] = useState([]);
+  const todoID = useRef(1);
 
-const Section = ({children, title}): Node => {
-  const isDarkMode = useColorScheme() === 'dark';
+  console.log(todo);
+
+  const renderItem = ({ item }) => <Item todo={item.todo} />;
+
   return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
+    <View>
+      <Text style={styles.todo}>오늘 뭐하지?</Text>
+      <KeyboardAvoidingView>
+        <TextInput
+          style={styles.input}
+          placeholder="오늘 뭐하지?"
+          onSubmitEditing={e => {
+            let text = e.nativeEvent.text;
+            const todos = {
+              id: todoID.current,
+              todo: text,
+            };
+            setTodo(todo.concat(todos));
+            e.currentTarget.clear();
+            todoID.current += 1;
+          }}
+        />
+      </KeyboardAvoidingView>
+      <SafeAreaView style={styles.container}>
+        <FlatList
+          style={styles.item}
+          data={todo}
+          renderItem={renderItem}
+          keyExtractor={todos => todos.id}
+        />
+      </SafeAreaView>
     </View>
   );
 };
 
-const App: () => Node = () => {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
-  return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.js</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
-  );
-};
-
 const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
+  todo: {
+    fontWeight: 'bold',
+    fontSize: 50,
   },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
+  input: {
+    height: 42,
+    margin: 12,
+    borderWidth: 1,
+    padding: 10,
+    borderColor: 'skyblue',
   },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
+  item: {
+    fontSize: 25,
+    color: 'green',
   },
-  highlight: {
-    fontWeight: '700',
+  container: {
+    backgroundColor: 'yellow',
+  },
+  container2: {
+    backgroundColor: 'pink',
   },
 });
 
