@@ -1,23 +1,24 @@
-import React from 'react';
-import { FlatList, TouchableOpacity } from 'react-native';
-
+import React, { useState } from 'react';
+import { FlatList, TouchableOpacity, Text } from 'react-native';
+import styles from '../styles/styles';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const outfutTodos = async () => {
-  let a;
-  try {
-    a = await AsyncStorage.multiGet(await AsyncStorage.getAllKeys());
+// const outfutTodos = async () => {
+//   let a;
+//   try {
+//     a = await AsyncStorage.multiGet(await AsyncStorage.getAllKeys());
 
-    aaa = a.map(x => ({ id: x[0], todo: x[1] }));
-    console.log(aaa);
-  } catch (error) {}
-  console.log('---------');
-};
+//     aaa = a.map(x => ({ id: x[0], todo: x[1] }));
+//     console.log(aaa);
+//     return setTest(test.concat(aaa));
+//   } catch (error) {}
+//   console.log('---------');
+// };
 
-outfutTodos();
+// outfutTodos();
 
 // console.log(aaa);
-console.log(outfutTodos());
+// console.log(outfutTodos());
 
 // const console = () => {
 //   console.log("move")
@@ -43,7 +44,18 @@ const Item = ({ todo }) => (
 );
 
 export default function TodoList() {
-  const renderItem = ({ item }) => <Item todo={item} />;
-
-  // return <FlatList renderItem={renderItem} data={outfutTodos} />;
+  // const [test, setTest] = useState([]);
+  // const outfutTodos = async () => {
+  //   let a;
+  //   try {
+  //     a = await AsyncStorage.multiGet(await AsyncStorage.getAllKeys());
+  //     aaa = a.map(x => ({ id: x[0], todo: x[1] }));
+  //     console.log(aaa);
+  //     return setTest(test.concat(aaa));
+  //   } catch (error) {}
+  //   console.log('---------');
+  // };
+  // outfutTodos();
+  // const renderItem = ({ item }) => <Item todo={item} />;
+  // return <FlatList renderItem={renderItem} data={test} />;
 }
