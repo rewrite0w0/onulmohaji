@@ -1,16 +1,10 @@
 import React from 'react';
-import {
-  SafeAreaView,
-  Button,
-  StatusBar,
-  View,
-  ScrollView,
-} from 'react-native';
+import { SafeAreaView, Button } from 'react-native';
 
 import { Title, GetTextTodo, Footer } from './src/components/Components';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import styles from './src/styles/styles';
+// import styles from './src/styles/styles';
 
 const clearDB = async () => {
   await AsyncStorage.clear();

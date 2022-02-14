@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {
   KeyboardAvoidingView,
   TextInput,
@@ -10,6 +10,9 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { styles } from '../utils';
 
+import 'react-native-get-random-values';
+import { v4 as uuidv4 } from 'uuid';
+
 const Item = ({ todo }) => (
   <View style={styles.item}>
     <Text style={styles.title}>{todo}</Text>
@@ -19,9 +22,22 @@ const Item = ({ todo }) => (
 export default function GetTextTodo() {
   const [todo, setTodo] = useState([]);
   const [todos, setTodos] = useState([]);
+  const [date, setDate] = useState(null);
   const todoID = useRef(1);
 
-  const akeys = async () => {
+  // useEffect(() => {
+  //   let today = new Date();
+  //   let date =
+  //     today.getFullYear() + '-' + today.getMonth() + '-' + today.getDate();
+  //   setDate(date);
+  // }, []);
+
+  const getNow = () => {
+    let a = () => new Date();
+    setDate(a);
+  };
+
+  const aGetKeys = async () => {
     let keys = [];
     let values;
 
@@ -29,9 +45,6 @@ export default function GetTextTodo() {
       keys = await AsyncStorage.getAllKeys();
       values = await AsyncStorage.multiGet(keys);
     } catch (e) {}
-    // console.log('value');
-    // console.log(values);
-    // console.log('------');
   };
 
   const outputTodos = async () => {
@@ -44,35 +57,34 @@ export default function GetTextTodo() {
       TODOS_TO_OBJECT = TODOS.map(el => ({ id: el[0], todo: el[1] }));
 
       setTodos(TODOS_TO_OBJECT);
-      // console.log('-------todo to object');
-      // console.log(TODOS_TO_OBJECT);
-      // console.log('--------');
     } catch (error) {}
   };
 
   const inputTodos = e => {
     let text = e.nativeEvent.text;
+    getNow();
     const todoObj = {
       id: todoID.current,
+      // id: uuidv4(),
       todo: text,
+      date: date,
     };
+
     setTodo(todo.concat(todoObj));
     e.currentTarget.clear();
 
     AsyncStorage.setItem(
       `${todoID.current < 10 ? `0${todoID.current}` : `${todoID.current}`}`,
+      // todoObj.id,
       text,
     );
-    // console.log('-------');
-    // console.log('todo');
-    // console.log(todo);
-    // console.log('vs');
-    // console.log('todos');
-    // console.log(todos);
-    // console.log('-------');
 
-    akeys();
+    aGetKeys();
     outputTodos();
+    console.log(date);
+    console.log(todo);
+    console.log('-------');
+    console.log(todos);
     todoID.current += 1;
   };
 
@@ -89,7 +101,7 @@ export default function GetTextTodo() {
 
       <SafeAreaView style={styles.titleContainer}>
         <FlatList
-          data={todos}
+          data={todos.reverse()}
           renderItem={renderItem}
           keyExtractor={todos => todos.id}
           nestedScrollEnabled
