@@ -8,11 +8,11 @@ import {
   FlatList,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import styles from '../styles/styles';
+import { styles } from '../utils';
 
 const Item = ({ todo }) => (
-  <View style={styles.container2}>
-    <Text style={styles.item}>{todo}</Text>
+  <View style={styles.item}>
+    <Text style={styles.title}>{todo}</Text>
   </View>
 );
 
@@ -22,10 +22,6 @@ export default function GetTextTodo() {
   const todoID = useRef(1);
 
   const akeys = async () => {
-    const clearDB = async () => {
-      await AsyncStorage.clear();
-    };
-    // clearDB();
     let keys = [];
     let values;
 
@@ -33,27 +29,10 @@ export default function GetTextTodo() {
       keys = await AsyncStorage.getAllKeys();
       values = await AsyncStorage.multiGet(keys);
     } catch (e) {}
-    console.log('value');
-    console.log(values);
-    console.log('------');
+    // console.log('value');
+    // console.log(values);
+    // console.log('------');
   };
-
-  // const [_todos, _setTodos] = useState([]);
-  // const outfutTodos = async () => {
-  //   // clearDB();
-  //   let a;
-  //   try {
-  //     a = await AsyncStorage.multiGet(await AsyncStorage.getAllKeys());
-
-  //     aaa = a.map(x => ({ id: x[0], todo: x[1] }));
-  //     console.log(aaa);
-  //     console.log(_todos);
-  //     _setTodos(_todos.concat(aaa));
-  //   } catch (error) {}
-  //   console.log('---------');
-  //   console.log(_todos);
-  //   // console.log('---------');
-  // };
 
   const outputTodos = async () => {
     let TODOS;
@@ -65,9 +44,9 @@ export default function GetTextTodo() {
       TODOS_TO_OBJECT = TODOS.map(el => ({ id: el[0], todo: el[1] }));
 
       setTodos(TODOS_TO_OBJECT);
-      console.log('-------todo to object');
-      console.log(TODOS_TO_OBJECT);
-      console.log('--------');
+      // console.log('-------todo to object');
+      // console.log(TODOS_TO_OBJECT);
+      // console.log('--------');
     } catch (error) {}
   };
 
@@ -84,40 +63,39 @@ export default function GetTextTodo() {
       `${todoID.current < 10 ? `0${todoID.current}` : `${todoID.current}`}`,
       text,
     );
-    console.log('-------');
-    console.log('todo');
-    console.log(todo);
-    console.log('vs');
-    console.log('todos');
-    console.log(todos);
-    console.log('-------');
+    // console.log('-------');
+    // console.log('todo');
+    // console.log(todo);
+    // console.log('vs');
+    // console.log('todos');
+    // console.log(todos);
+    // console.log('-------');
 
     akeys();
     outputTodos();
     todoID.current += 1;
   };
 
-  // const onSubmit = () => {
-  //   inputTodos();
-  //   outputTodos();
-  // };
-
   const renderItem = ({ item }) => <Item todo={item.todo} />;
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{ flex: 1 }}>
       <KeyboardAvoidingView>
         <TextInput
-          placeholder="qerte"
+          placeholder="오늘 뭐하지...?"
           style={styles.input}
           onSubmitEditing={inputTodos}
         />
       </KeyboardAvoidingView>
 
-      <FlatList
-        data={todos}
-        renderItem={renderItem}
-        keyExtractor={todos => todos.id}
-      />
+      <SafeAreaView style={styles.titleContainer}>
+        <FlatList
+          data={todos}
+          renderItem={renderItem}
+          keyExtractor={todos => todos.id}
+          nestedScrollEnabled
+          windowSize={4}
+        />
+      </SafeAreaView>
     </SafeAreaView>
   );
 }
