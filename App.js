@@ -1,10 +1,9 @@
 import React from 'react';
-import { SafeAreaView, Button } from 'react-native';
+import { SafeAreaView, Button, RefreshControl } from 'react-native';
 
 import { Title, GetTextTodo, Footer } from './src/components/Components';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
-// import styles from './src/styles/styles';
 
 const clearDB = async () => {
   await AsyncStorage.clear();
@@ -13,13 +12,12 @@ const clearDB = async () => {
 const App = () => {
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      {/* <Bar /> */}
-      <Title style={{ flex: 1 }} />
+      <Title />
 
       <GetTextTodo />
 
-      <Button onPress={clearDB} title="reset" style={{ flex: 1 }} />
-      <Footer style={{ flex: 1 }} />
+      <Button onPress={clearDB} title="reset" />
+      <Footer />
     </SafeAreaView>
   );
 };

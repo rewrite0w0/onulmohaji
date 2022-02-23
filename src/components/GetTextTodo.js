@@ -22,20 +22,8 @@ const Item = ({ todo }) => (
 export default function GetTextTodo() {
   const [todo, setTodo] = useState([]);
   const [todos, setTodos] = useState([]);
-  const [date, setDate] = useState(null);
+
   const todoID = useRef(1);
-
-  // useEffect(() => {
-  //   let today = new Date();
-  //   let date =
-  //     today.getFullYear() + '-' + today.getMonth() + '-' + today.getDate();
-  //   setDate(date);
-  // }, []);
-
-  const getNow = () => {
-    let a = () => new Date();
-    setDate(a);
-  };
 
   const aGetKeys = async () => {
     let keys = [];
@@ -54,41 +42,57 @@ export default function GetTextTodo() {
     try {
       TODOS = await AsyncStorage.multiGet(await AsyncStorage.getAllKeys());
 
-      TODOS_TO_OBJECT = TODOS.map(el => ({ id: el[0], todo: el[1] }));
-
+      TODOS_TO_OBJECT = TODOS.map(el => ({
+        id: el[0],
+        todo: JSON.parse(el[1]).todo,
+        date: JSON.parse(el[1]).date,
+        uuid: JSON.parse(el[1]).uuidv4,
+      }));
+      console.log(TODOS_TO_OBJECT);
       setTodos(TODOS_TO_OBJECT);
     } catch (error) {}
   };
 
   const inputTodos = e => {
     let text = e.nativeEvent.text;
-    getNow();
+
+    let value = JSON.stringify({
+      uuidv4: uuidv4(),
+      todo: text,
+      date: new Date(),
+    });
+
     const todoObj = {
       id: todoID.current,
-      // id: uuidv4(),
-      todo: text,
-      date: date,
+      values: value,
     };
 
     setTodo(todo.concat(todoObj));
-    e.currentTarget.clear();
 
     AsyncStorage.setItem(
       `${todoID.current < 10 ? `0${todoID.current}` : `${todoID.current}`}`,
-      // todoObj.id,
-      text,
+      value,
     );
 
+    e.currentTarget.clear();
     aGetKeys();
     outputTodos();
-    console.log(date);
-    console.log(todo);
-    console.log('-------');
-    console.log(todos);
+
     todoID.current += 1;
   };
+  console.log('sorting');
+  console.log(todos.sort((x, y) => y.date - x.date));
+
+  // 날짜로 정렬
+  // id에 uuid
+  // 재기동시 렌더링
+
+  // console.log(todo);
+  // console.log('vs');
+  // console.log(todos);
 
   const renderItem = ({ item }) => <Item todo={item.todo} />;
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <KeyboardAvoidingView>
@@ -101,7 +105,7 @@ export default function GetTextTodo() {
 
       <SafeAreaView style={styles.titleContainer}>
         <FlatList
-          data={todos.reverse()}
+          data={todos}
           renderItem={renderItem}
           keyExtractor={todos => todos.id}
           nestedScrollEnabled

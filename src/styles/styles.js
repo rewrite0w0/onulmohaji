@@ -10,10 +10,18 @@ const styles = StyleSheet.create({
     fontSize: 50,
     color: 'green',
     backgroundColor: 'blue',
+    borderRadius: 10,
+    justifyContent: 'flex-start',
+    padding: 2,
+    margin: 2,
+    alignContent: 'center',
   },
   titleContainer: {
     flex: 3,
     backgroundColor: 'cyan',
+    borderRadius: 7,
+    margin: 5,
+    padding: 5,
   },
   input: {
     height: 42,
@@ -24,19 +32,17 @@ const styles = StyleSheet.create({
   },
   item: {
     fontSize: 20,
-    marginVertical: 8,
-    marginHorizontal: 16,
+    marginVertical: 5,
+    marginHorizontal: 12,
   },
   container: {
     backgroundColor: 'yellow',
     // marginTop: StatusBar.currentHeight || 0,
-    // flex: 1,
   },
   container2: {
     backgroundColor: 'pink',
   },
   footer: {
-    // flex: 1,
     backgroundColor: 'violet',
   },
 });
