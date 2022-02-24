@@ -1,5 +1,5 @@
 import React from 'react';
-import { SafeAreaView, Button, RefreshControl } from 'react-native';
+import { SafeAreaView, Button } from 'react-native';
 
 import { Title, GetTextTodo, Footer } from './src/components/Components';
 
@@ -13,9 +13,7 @@ const App = () => {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <Title />
-
       <GetTextTodo />
-
       <Button onPress={clearDB} title="reset" />
       <Footer />
     </SafeAreaView>

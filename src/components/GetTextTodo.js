@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import {
   KeyboardAvoidingView,
   TextInput,
@@ -23,7 +23,6 @@ export default function GetTextTodo() {
   const [todo, setTodo] = useState([]);
   const [todos, setTodos] = useState([]);
 
-  // const todoID = useRef(1);
   const todoID = useRef(uuidv4());
 
   const aGetKeys = async () => {
@@ -48,9 +47,10 @@ export default function GetTextTodo() {
         todo: JSON.parse(el[1]).todo,
         createdDate: JSON.parse(el[1]).createdDate,
         modifiedDate: JSON.parse(el[1]).modifiedDate,
+        doneTime: JSON.parse(el[1]).doneTime,
         uuid: JSON.parse(el[1]).uuidv4,
       }));
-      // console.log(TODOS_TO_OBJECT);
+
       setTodos(TODOS_TO_OBJECT);
     } catch (error) {}
   };
@@ -59,46 +59,32 @@ export default function GetTextTodo() {
     let text = e.nativeEvent.text;
 
     let value = JSON.stringify({
-      // uuidv4: uuidv4(),
       uuidv4: todoID.current,
       todo: text,
       createdDate: new Date(),
       modifiedDate: new Date(),
+      doneTime: new Date(),
     });
-    console.log(value);
 
     const todoObj = {
       id: todoID.current,
-      // id: value.uuidv4,
       values: value,
     };
-    console.log(todoObj);
+
     setTodo(todo.concat(todoObj));
 
-    AsyncStorage.setItem(
-      // `${todoID.current < 10 ? `0${todoID.current}` : `${todoID.current}`}`,
-      todoObj.id,
-      value,
-    );
+    AsyncStorage.setItem(todoObj.id, value);
 
     e.currentTarget.clear();
     aGetKeys();
     outputTodos();
 
-    // todoID.current += 1;
     todoID.current = uuidv4();
   };
-  console.log('sorting');
 
   todos.sort((x, y) => (x.createdDate < y.createdDate ? 1 : -1));
 
-  // 날짜로 정렬
-  // id에 uuid
   // 재기동시 렌더링
-
-  // console.log(todo);
-  // console.log('vs');
-  // console.log(todos);
 
   const renderItem = ({ item }) => <Item todo={item.todo} />;
 
