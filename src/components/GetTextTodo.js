@@ -6,6 +6,7 @@ import {
   Text,
   SafeAreaView,
   FlatList,
+  Pressable,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { styles } from '../utils';
@@ -13,10 +14,14 @@ import { styles } from '../utils';
 import 'react-native-get-random-values';
 import { v4 as uuidv4 } from 'uuid';
 
+const press = () => {
+  console.log('move');
+};
+
 const Item = ({ todo }) => (
-  <View style={styles.item}>
+  <Pressable style={styles.item} onPress={press}>
     <Text style={styles.title}>{todo}</Text>
-  </View>
+  </Pressable>
 );
 
 export default function GetTextTodo() {
