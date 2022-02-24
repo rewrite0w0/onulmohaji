@@ -23,7 +23,8 @@ export default function GetTextTodo() {
   const [todo, setTodo] = useState([]);
   const [todos, setTodos] = useState([]);
 
-  const todoID = useRef(1);
+  // const todoID = useRef(1);
+  const todoID = useRef(uuidv4());
 
   const aGetKeys = async () => {
     let keys = [];
@@ -45,10 +46,11 @@ export default function GetTextTodo() {
       TODOS_TO_OBJECT = TODOS.map(el => ({
         id: el[0],
         todo: JSON.parse(el[1]).todo,
-        date: JSON.parse(el[1]).date,
+        createdDate: JSON.parse(el[1]).createdDate,
+        modifiedDate: JSON.parse(el[1]).modifiedDate,
         uuid: JSON.parse(el[1]).uuidv4,
       }));
-      console.log(TODOS_TO_OBJECT);
+      // console.log(TODOS_TO_OBJECT);
       setTodos(TODOS_TO_OBJECT);
     } catch (error) {}
   };
@@ -57,20 +59,25 @@ export default function GetTextTodo() {
     let text = e.nativeEvent.text;
 
     let value = JSON.stringify({
-      uuidv4: uuidv4(),
+      // uuidv4: uuidv4(),
+      uuidv4: todoID.current,
       todo: text,
-      date: new Date(),
+      createdDate: new Date(),
+      modifiedDate: new Date(),
     });
+    console.log(value);
 
     const todoObj = {
       id: todoID.current,
+      // id: value.uuidv4,
       values: value,
     };
-
+    console.log(todoObj);
     setTodo(todo.concat(todoObj));
 
     AsyncStorage.setItem(
-      `${todoID.current < 10 ? `0${todoID.current}` : `${todoID.current}`}`,
+      // `${todoID.current < 10 ? `0${todoID.current}` : `${todoID.current}`}`,
+      todoObj.id,
       value,
     );
 
@@ -78,10 +85,12 @@ export default function GetTextTodo() {
     aGetKeys();
     outputTodos();
 
-    todoID.current += 1;
+    // todoID.current += 1;
+    todoID.current = uuidv4();
   };
   console.log('sorting');
-  console.log(todos.sort((x, y) => y.date - x.date));
+
+  todos.sort((x, y) => (x.createdDate < y.createdDate ? 1 : -1));
 
   // 날짜로 정렬
   // id에 uuid
