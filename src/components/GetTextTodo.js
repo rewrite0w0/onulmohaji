@@ -7,6 +7,8 @@ import {
   SafeAreaView,
   FlatList,
   Pressable,
+  Touchable,
+  TouchableOpacity,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { styles } from '../utils';
@@ -14,26 +16,57 @@ import { styles } from '../utils';
 import 'react-native-get-random-values';
 import { v4 as uuidv4 } from 'uuid';
 
-const press = () => {
-  console.log('move');
-};
+// const press = async () => {
+//   let key;
+//   try {
+//     key = await AsyncStorage.getItem('');
+//     console.log('move');
+//   } catch (error) {}
+// };
 
-const Item = ({ todo }) => (
-  <Pressable style={styles.item} onPress={press}>
-    <Text style={styles.title}>{todo}</Text>
-  </Pressable>
-);
+// const getKey = async () => {
+//   let key;
+//   try {
+//     key = await AsyncStorage.getItem('');
+//     console.log(key);
+//   } catch (error) {}
+// };
 
-export default function GetTextTodo() {
+// const Item = ({ todo }) => (
+//   <Pressable style={styles.item} onPress={press}>
+//     <Text style={styles.title}>{todo}</Text>
+//   </Pressable>
+// );
+function GetTextTodo() {
   const [todo, setTodo] = useState([]);
   const [todos, setTodos] = useState([]);
 
   const todoID = useRef(uuidv4());
 
+  const dom = useRef();
+
+  const press = async () => {
+    let key;
+    try {
+      key = await AsyncStorage.getItem();
+      console.log(key);
+    } catch (e) {}
+  };
+
+  const Item = ({ item }) => {
+    return (
+      <TouchableOpacity style={styles.item}>
+        <Text style={styles.title}>
+          {item.todo}
+          {/* {item.uuid} */}
+        </Text>
+      </TouchableOpacity>
+    );
+  };
+
   const aGetKeys = async () => {
     let keys = [];
     let values;
-
     try {
       keys = await AsyncStorage.getAllKeys();
       values = await AsyncStorage.multiGet(keys);
@@ -91,7 +124,27 @@ export default function GetTextTodo() {
 
   // 재기동시 렌더링
 
-  const renderItem = ({ item }) => <Item todo={item.todo} />;
+  // 선택했을 때 id 받기
+  // 아니면 아예 재구축하기
+  // 그런데 전자로 해결하고 싶음
+  // 눌렀을 때 해야할 반응
+  // 1) 삭제
+  // 2) 수정
+  // 3) 체크박스 필요?
+
+  const renderItem = ({ item }) => <Item item={item} />;
+
+  const renderTodos = ({ item }) => {
+    // console.log(item);
+    return (
+      <TouchableOpacity style={styles.item}>
+        <Text style={styles.title}>
+          {item.todo}
+          {/* {item.uuid} */}
+        </Text>
+      </TouchableOpacity>
+    );
+  };
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -106,8 +159,8 @@ export default function GetTextTodo() {
       <SafeAreaView style={styles.titleContainer}>
         <FlatList
           data={todos}
-          renderItem={renderItem}
-          keyExtractor={todos => todos.id}
+          renderItem={renderTodos}
+          keyExtractor={todo => todo.id}
           nestedScrollEnabled
           windowSize={4}
         />
@@ -115,3 +168,6 @@ export default function GetTextTodo() {
     </SafeAreaView>
   );
 }
+
+// export default React.memo(GetTextTodo);
+export default GetTextTodo;
