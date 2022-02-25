@@ -1,6 +1,8 @@
 import React from 'react';
 import { Text } from 'react-native';
 
-export default function Eq() {
+function TodoItem() {
   return <Text>Hello World</Text>;
 }
+
+module.exports = { TodoItem };

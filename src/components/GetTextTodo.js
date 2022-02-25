@@ -2,13 +2,10 @@ import React, { useState, useRef } from 'react';
 import {
   KeyboardAvoidingView,
   TextInput,
-  View,
   Text,
   SafeAreaView,
   FlatList,
   Pressable,
-  Touchable,
-  TouchableOpacity,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { styles } from '../utils';
@@ -16,53 +13,25 @@ import { styles } from '../utils';
 import 'react-native-get-random-values';
 import { v4 as uuidv4 } from 'uuid';
 
-// const press = async () => {
-//   let key;
-//   try {
-//     key = await AsyncStorage.getItem('');
-//     console.log('move');
-//   } catch (error) {}
-// };
-
-// const getKey = async () => {
-//   let key;
-//   try {
-//     key = await AsyncStorage.getItem('');
-//     console.log(key);
-//   } catch (error) {}
-// };
-
 // const Item = ({ todo }) => (
 //   <Pressable style={styles.item} onPress={press}>
 //     <Text style={styles.title}>{todo}</Text>
 //   </Pressable>
 // );
+
 function GetTextTodo() {
   const [todo, setTodo] = useState([]);
   const [todos, setTodos] = useState([]);
 
   const todoID = useRef(uuidv4());
 
-  const dom = useRef();
-
-  const press = async () => {
-    let key;
-    try {
-      key = await AsyncStorage.getItem();
-      console.log(key);
-    } catch (e) {}
-  };
-
-  const Item = ({ item }) => {
-    return (
-      <TouchableOpacity style={styles.item}>
-        <Text style={styles.title}>
-          {item.todo}
-          {/* {item.uuid} */}
-        </Text>
-      </TouchableOpacity>
-    );
-  };
+  // const Item = ({ item }) => {
+  //   return (
+  //     <Pressable style={styles.item}>
+  //       <Text style={styles.title}>{item.todo}</Text>
+  //     </Pressable>
+  //   );
+  // };
 
   const aGetKeys = async () => {
     let keys = [];
@@ -79,7 +48,6 @@ function GetTextTodo() {
 
     try {
       TODOS = await AsyncStorage.multiGet(await AsyncStorage.getAllKeys());
-
       TODOS_TO_OBJECT = TODOS.map(el => ({
         id: el[0],
         todo: JSON.parse(el[1]).todo,
@@ -88,7 +56,6 @@ function GetTextTodo() {
         doneTime: JSON.parse(el[1]).doneTime,
         uuid: JSON.parse(el[1]).uuidv4,
       }));
-
       setTodos(TODOS_TO_OBJECT);
     } catch (error) {}
   };
@@ -131,18 +98,20 @@ function GetTextTodo() {
   // 1) 삭제
   // 2) 수정
   // 3) 체크박스 필요?
+  // 4) done 기능
+  // 5) 코드 나누기 지금은 onSubmit에 모두 의존하는데 이와 별개로 구분짓고 싶음
 
-  const renderItem = ({ item }) => <Item item={item} />;
+  // const renderItem = ({ item }) => <Item item={item} />;
 
   const renderTodos = ({ item }) => {
-    // console.log(item);
+    // console.log(item.uuid);
     return (
-      <TouchableOpacity style={styles.item}>
+      <Pressable style={styles.item} key={item.id}>
         <Text style={styles.title}>
           {item.todo}
           {/* {item.uuid} */}
         </Text>
-      </TouchableOpacity>
+      </Pressable>
     );
   };
 
@@ -169,5 +138,4 @@ function GetTextTodo() {
   );
 }
 
-// export default React.memo(GetTextTodo);
 export default GetTextTodo;
