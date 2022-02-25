@@ -1,7 +1,8 @@
 import React from 'react';
 import { Text, Pressable } from 'react-native';
+import { styles } from '../utils';
 
-const renderTodos = ({ item }) => {
+const RenderTodos = ({ item }) => {
   // console.log(item.uuid);
   return (
     <Pressable style={styles.item} key={item.id}>
@@ -12,3 +13,5 @@ const renderTodos = ({ item }) => {
     </Pressable>
   );
 };
+
+export default RenderTodos;

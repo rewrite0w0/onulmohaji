@@ -5,6 +5,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 50,
   },
+
   title: {
     fontWeight: 'bold',
     fontSize: 50,
@@ -16,6 +17,7 @@ const styles = StyleSheet.create({
     margin: 2,
     alignContent: 'center',
   },
+
   titleContainer: {
     flex: 3,
     backgroundColor: 'cyan',
@@ -23,6 +25,15 @@ const styles = StyleSheet.create({
     margin: 5,
     padding: 5,
   },
+
+  flatListContainer: {
+    flex: 6,
+    backgroundColor: 'lavender',
+    borderRadius: 7,
+    margin: 5,
+    padding: 5,
+  },
+
   input: {
     height: 42,
     margin: 12,
@@ -30,18 +41,22 @@ const styles = StyleSheet.create({
     padding: 10,
     borderColor: 'skyblue',
   },
+
   item: {
     fontSize: 20,
     marginVertical: 5,
     marginHorizontal: 12,
   },
+
   container: {
     backgroundColor: 'yellow',
     // marginTop: StatusBar.currentHeight || 0,
   },
+
   container2: {
     backgroundColor: 'pink',
   },
+
   footer: {
     backgroundColor: 'violet',
   },
