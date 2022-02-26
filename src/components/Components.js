@@ -1,10 +1,10 @@
-import Title from './Title';
+import Header from './Header';
 import GetTextTodo from './GetTextTodo';
 import RenderFlatList from './RenderFlatList';
 import Footer from './Footer';
 
 module.exports = {
-  Title,
+  Header,
   GetTextTodo,
   RenderFlatList,
   Footer,

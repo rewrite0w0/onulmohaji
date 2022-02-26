@@ -2,14 +2,13 @@ import React from 'react';
 import { SafeAreaView, Button } from 'react-native';
 
 import {
-  Title,
+  Header,
   GetTextTodo,
   RenderFlatList,
   Footer,
 } from './src/components/Components';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
-// import RenderFlatList from './src/components/RenderFlatList';
 
 const clearDB = async () => {
   await AsyncStorage.clear();
@@ -18,7 +17,7 @@ const clearDB = async () => {
 const App = () => {
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <Title style={{ flex: 1 }} />
+      <Header style={{ flex: 1 }} />
 
       <GetTextTodo style={{ flex: 1 }} />
 
