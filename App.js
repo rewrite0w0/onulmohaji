@@ -1,31 +1,28 @@
 import React from 'react';
 import { SafeAreaView, Button } from 'react-native';
 
-import { Title, GetTextTodo, Footer } from './src/components/Components';
+import {
+  Title,
+  GetTextTodo,
+  RenderFlatList,
+  Footer,
+} from './src/components/Components';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import RenderFlatList from './src/components/RenderFlatList';
+// import RenderFlatList from './src/components/RenderFlatList';
 
 const clearDB = async () => {
   await AsyncStorage.clear();
 };
 
-const d = q => {
-  return console.log(q);
-};
-
-// 처음 로딩할 때, AsyncStorage 길이 조회해서 길이가 1이상이면 렌더링
-
-// renderScreen > 0 ?<GetTextTodo />:<Text>move</Text>
-
 const App = () => {
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <Title />
+      <Title style={{ flex: 1 }} />
 
-      <GetTextTodo />
+      <GetTextTodo style={{ flex: 1 }} />
 
-      <RenderFlatList />
+      <RenderFlatList style={{ flex: 5 }} />
 
       <Button onPress={clearDB} title="reset" style={{ flex: 1 }} />
       <Footer style={{ flex: 1 }} />

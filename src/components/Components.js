@@ -1,11 +1,11 @@
 import Title from './Title';
 import GetTextTodo from './GetTextTodo';
-// import Bar from './Bar';
+import RenderFlatList from './RenderFlatList';
 import Footer from './Footer';
 
 module.exports = {
   Title,
   GetTextTodo,
-  // Bar,
+  RenderFlatList,
   Footer,
 };
