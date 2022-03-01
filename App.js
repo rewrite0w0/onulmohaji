@@ -22,8 +22,8 @@ const App = () => {
       <GetTextTodo style={{ flex: 1 }} />
 
       <RenderFlatList style={{ flex: 5 }} />
-
       <Button onPress={clearDB} title="reset" style={{ flex: 1 }} />
+
       <Footer style={{ flex: 1 }} />
     </SafeAreaView>
   );

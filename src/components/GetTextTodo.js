@@ -16,7 +16,8 @@ function GetTextTodo() {
       todo: text,
       createdDate: new Date(),
       modifiedDate: new Date(),
-      doneTime: new Date(),
+      doneDate: undefined,
+      doneCheck: false,
     });
 
     const todoObj = {
