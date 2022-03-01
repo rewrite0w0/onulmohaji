@@ -3,7 +3,7 @@ import { SafeAreaView, Button } from 'react-native';
 
 import {
   Header,
-  GetTextTodo,
+  InputTodo,
   RenderFlatList,
   Footer,
 } from './src/components/Components';
@@ -19,7 +19,7 @@ const App = () => {
     <SafeAreaView style={{ flex: 1 }}>
       <Header style={{ flex: 1 }} />
 
-      <GetTextTodo style={{ flex: 1 }} />
+      <InputTodo style={{ flex: 1 }} />
 
       <RenderFlatList style={{ flex: 5 }} />
       <Button onPress={clearDB} title="reset" style={{ flex: 1 }} />

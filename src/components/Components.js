@@ -1,11 +1,11 @@
 import Header from './Header';
-import GetTextTodo from './GetTextTodo';
+import InputTodo from './InputTodo';
 import RenderFlatList from './RenderFlatList';
 import Footer from './Footer';
 
 module.exports = {
   Header,
-  GetTextTodo,
+  InputTodo,
   RenderFlatList,
   Footer,
 };

@@ -9,7 +9,11 @@ import {
   Alert,
 } from 'react-native';
 import { styles } from '../utils';
+
 import AsyncStorage from '@react-native-async-storage/async-storage';
+
+import removeTodo from './removeTodo';
+import togleDoneCheck from './togleDoneCheck';
 
 // 1. 좌우에 버튼을 두어 애니메이션으로 효과를 주기?
 //                       or
@@ -28,25 +32,41 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // 2. 수정할 때는 asyncstorage merge로 해결하기
 
-const togleDone = async item => {
-  let e;
-  try {
-    e = await AsyncStorage.getItem(item.id);
-    // alert(e);
-    // a = await AsyncStorage.mergeItem(item.id, JSON.stringify());
-    alert(e);
-  } catch (error) {}
-};
+// const test = async item => {
+//   let e, todosDecode, todosEncode;
+//   e = await AsyncStorage.getItem(item.id);
 
-const removeTodo = async item => {
-  try {
-    await AsyncStorage.removeItem(item.id);
-    // 이제 어떻게 화면에 반영하는가인데...렌더링을 매번 새로하자니 너무 비싼거같은데...
-    // 삭제하고 다시 렌더링이 안되는데?
-    return true;
-    // 뭐지 return 넣으니까 되는데?
-  } catch (error) {}
-};
+//   todosDecode = JSON.parse(e);
+//   todosEncode = JSON.stringify(e);
+
+// };
+
+const modifiedTodo = async item => {};
+
+// const togleDoneCheck = async item => {
+//   let e, todoDecode;
+//   try {
+//     e = await AsyncStorage.getItem(item.id);
+//     todoDecode = JSON.parse(e);
+//     todoDecode.doneCheck = !todoDecode.doneCheck;
+//     todoDecode.doneDate = new Date();
+
+//     // new Date() 남발하는 기분인데 다른 방법은 없는가?
+
+//     await AsyncStorage.mergeItem(item.id, JSON.stringify(todosDecode));
+//   } catch (error) {}
+// };
+
+// const removeTodo = async item => {
+//   try {
+//     await AsyncStorage.removeItem(item.id);
+//     // 이제 어떻게 화면에 반영하는가인데...렌더링을 매번 새로하자니 너무 비싼거같은데...
+//     // 삭제하고 다시 렌더링이 안되는데?
+
+//     return true;
+//     // 뭐지 return 넣으니까 되는데?
+//   } catch (error) {}
+// };
 
 const RenderTodos = ({ item }) => {
   return (
@@ -55,7 +75,10 @@ const RenderTodos = ({ item }) => {
       key={item.id}
       // onPressIn={() => alert('in')}
       // onPressOut={() => alert('out')}
-      onLongPress={() => removeTodo(item)}
+      // onPress={() => removeTodo(item)}
+      onLongPress={() => togleDoneCheck(item)}
+      onPress={() => removeTodo(item)}
+      // onPress={() => test(item)}
       // onPress={() => togleDone(item)}
     >
       <Text style={styles.title}>{item.todo}</Text>

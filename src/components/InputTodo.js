@@ -6,7 +6,7 @@ import { styles } from '../utils';
 import 'react-native-get-random-values';
 import { v4 as uuidv4 } from 'uuid';
 
-function GetTextTodo() {
+function InputTodo() {
   const todoID = useRef(uuidv4());
   const inputTodos = e => {
     let text = e.nativeEvent.text;
@@ -42,4 +42,4 @@ function GetTextTodo() {
   );
 }
 
-export default GetTextTodo;
+export default InputTodo;
