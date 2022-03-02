@@ -8,6 +8,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 function InputTodo() {
   const todoID = useRef(uuidv4());
+
   const inputTodos = e => {
     let text = e.nativeEvent.text;
 
@@ -30,6 +31,10 @@ function InputTodo() {
     e.currentTarget.clear();
     todoID.current = uuidv4();
   };
+
+  const count = useRef(1);
+  console.log(`inputTodo render: ${count.current}`);
+  count.current += 1;
 
   return (
     <SafeAreaView>
