@@ -1,11 +1,15 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import React, { useState } from 'react';
 
-const modifiedTodo = async item => {
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Modal, TextInput } from 'react-native';
+
+const modifyTodo = async item => {
   let e, todoDecode;
   try {
     e = await AsyncStorage.getItem(item.id);
-    todoDecode = JSON.parse(e);
+
+    // alert(e);
   } catch (error) {}
 };
 
-export default modifiedTodo;
+export default modifyTodo;

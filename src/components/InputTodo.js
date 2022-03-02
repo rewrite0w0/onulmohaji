@@ -17,8 +17,9 @@ function InputTodo() {
       todo: text,
       createdDate: new Date(),
       modifiedDate: new Date(),
-      doneDate: undefined,
+      doneDate: null,
       doneCheck: false,
+      modalVisible: false,
     });
 
     const todoObj = {

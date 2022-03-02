@@ -22,6 +22,7 @@ const RenderFlatList = () => {
         doneDate: JSON.parse(el[1]).doneDate,
         doneCheck: JSON.parse(el[1]).doneCheck,
         uuid: JSON.parse(el[1]).uuidv4,
+        modalVisible: JSON.parse(el[1]).modalVisible,
       }));
       // 이게 문제네
       setTodos(TODOS_TO_OBJECT);
