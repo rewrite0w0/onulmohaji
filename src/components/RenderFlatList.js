@@ -1,12 +1,43 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { SafeAreaView, FlatList } from 'react-native';
+import React, { useState, useEffect, useRef, useContext } from 'react';
+
+import { SafeAreaView, FlatList, Text, Pressable } from 'react-native';
+
 import AsyncStorage from '@react-native-async-storage/async-storage';
+
+import removeTodo from './removeTodo';
+import togleDoneCheck from './togleDoneCheck';
+import modifyTodo from './modifyTodo';
+import consoleLike from './consoleLike';
+
+// import RenderTodos from './RenderTodos';
+
+// import { VisibleControl } from '../utils/global-state';
+
 import { styles } from '../utils';
-import RenderTodos from './RenderTodos';
 
 const RenderFlatList = () => {
   const [todos, setTodos] = useState([]);
+  const [q, setQ] = useState('move?');
 
+  const RenderTodos = ({ item }) => {
+    return (
+      <Pressable
+        style={styles.item}
+        key={item.id}
+        onPress={() => modifyTodo(item)}
+        // onLongPress={() => consoleLike(item)}
+        // onPress={() => removeTodo(item)}
+        // onPress={() => modifiedTodo(item)}
+        // onPress={() => togleDoneCheck(item)}
+      >
+        <Text style={styles.title}>{item.todo}</Text>
+      </Pressable>
+    );
+  };
+
+  // const [visibleControl, setVisibleControl] = useContext(VisibleControl);
+
+  // console.log(visibleControl);
   const outputTodos = async () => {
     let TODOS;
     let TODOS_TO_OBJECT;

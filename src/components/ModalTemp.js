@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Modal, TextInput, StyleSheet, View, Text } from 'react-native';
+import { Modal, View, Text, StyleSheet, TextInput } from 'react-native';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -15,7 +15,7 @@ const tempSE = (e, todoKey) => {
   e.currentTarget.clear();
 };
 
-function ModifyModal() {
+export default function ModalTemp({ item }) {
   let visibleControl = true;
   return (
     <View style={st.pointerE}>
@@ -52,56 +52,6 @@ function ModifyModal() {
     </View>
   );
 }
-
-const modifyTodo = async item => {
-  let e, todoDecode, modalVisible;
-  try {
-    e = await AsyncStorage.getItem(item.id);
-    todoDecode = JSON.parse(e);
-
-    todoDecode.modalVisible = !todoDecode.modalVisible;
-    modalVisible = todoDecode.modalVisible;
-
-    await AsyncStorage.mergeItem(item.id, JSON.stringify(todoDecode));
-    console.log(e);
-    console.log(modalVisible);
-  } catch (error) {}
-  console.log(modalVisible);
-  return (
-    <View style={st.pointerE}>
-      <Modal
-        animationType="fade"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {
-          console.log('move?');
-        }}>
-        <View style={st.con1}>
-          <View style={st.con2}>
-            <Text>Hello Modal</Text>
-            <TextInput
-              style={st.modalInput}
-              placeholder="todo 바꾸기"
-              onSubmitEditing={tempSE}
-            />
-            {/* <View style={st.con3}>
-                <View>
-                  <Pressable style={st.buttonClose}>
-                    <Text style={st.textStyle}>Cancel</Text>
-                  </Pressable>
-                </View>
-                <View>
-                  <Pressable style={st.buttonOpen}>
-                    <Text style={st.textStyle}>OK</Text>
-                  </Pressable>
-                </View>
-              </View> */}
-          </View>
-        </View>
-      </Modal>
-    </View>
-  );
-};
 
 const st = StyleSheet.create({
   con1: {
@@ -158,8 +108,5 @@ const st = StyleSheet.create({
   pointerE: {
     // PointterEvents: 'box-only',
     PointterEvents: 'auto',
-    zIndex: 10000,
   },
 });
-
-export default modifyTodo;

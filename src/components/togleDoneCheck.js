@@ -7,8 +7,6 @@ const togleDoneCheck = async item => {
     todoDecode = JSON.parse(e);
     todoDecode.doneCheck = !todoDecode.doneCheck;
 
-    // todoDecode.todo = `${todoDecode.doneCheck}`;
-
     todoDecode.modifiedDate = new Date();
 
     todoDecode.doneDate = todoDecode.doneCheck === true ? new Date() : null;

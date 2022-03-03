@@ -9,7 +9,7 @@ import { v4 as uuidv4 } from 'uuid';
 function InputTodo() {
   const todoID = useRef(uuidv4());
 
-  const inputTodos = e => {
+  const encodeTodo = e => {
     let text = e.nativeEvent.text;
 
     let value = JSON.stringify({
@@ -42,7 +42,7 @@ function InputTodo() {
       <TextInput
         placeholder="오늘 뭐하지...?"
         style={styles.input}
-        onSubmitEditing={inputTodos}
+        onSubmitEditing={encodeTodo}
       />
     </SafeAreaView>
   );
