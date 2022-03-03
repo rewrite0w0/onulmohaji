@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useContext } from 'react';
+import React, { useState, useEffect, useRef, useContext, useMemo } from 'react';
 
 import {
   SafeAreaView,
@@ -24,6 +24,8 @@ import consoleLike from './consoleLike';
 
 import { styles } from '../utils';
 
+// 여기 자체가 setState 렌더링 숫자가 무한정 오르네...
+
 const RenderFlatList = () => {
   const [todos, setTodos] = useState([]);
   const [id, setId] = useState(null);
@@ -33,87 +35,119 @@ const RenderFlatList = () => {
   // const [visibleControl, setVisibleControl] = useContext(VisibleControl);
   // console.log(visibleControl);
 
+  // console.log(todos);
+
   const tempOnSubmitEditingFunction = e => {
     let modifying = e.nativeEvent.text;
+    // setModifyText(modifying);
+    console.log(modifying);
+    console.log(id);
 
-    setModifyText(modifying);
-    console.log(modifyText);
+    (async () => {
+      let e = await AsyncStorage.getItem(id);
+      let todoDecode = JSON.parse(e);
+      todoDecode.todo = modifying;
+      todoDecode.modifiedDate = Date();
+
+      await AsyncStorage.mergeItem(id, JSON.stringify(todoDecode));
+    })();
+
     e.currentTarget.clear();
     setVisibleControl(false);
   };
+  // console.log(modifyText);
 
-  const ModalViewer = () => {
-    return (
-      <View style={st.pointerE}>
-        <Modal
-          animationType="fade"
-          // transparent={true}
-          visible={visibleControl}
-          onRequestClose={() => {
-            console.log('move?');
-            setVisibleControl(false);
-          }}>
-          <View style={st.con1}>
-            <View style={st.con2}>
-              <Text>Hello Modal</Text>
-              <TextInput
-                style={st.modalInput}
-                placeholder="todo 바꾸기"
-                onSubmitEditing={tempOnSubmitEditingFunction}
-              />
-            </View>
-          </View>
-        </Modal>
-      </View>
-    );
-  };
+  // const ModalViewer = () => {
+  //   return (
+  //     <View style={st.pointerE}>
+  //       <Modal
+  //         // animationType="fade"
+  //         // transparent={true}
+  //         visible={visibleControl}
+  //         onRequestClose={() => {
+  //           console.log('move?');
+  //           setVisibleControl(false);
+  //         }}>
+  //         <View style={st.con1}>
+  //           <View style={st.con2}>
+  //             <Text>Hello Modal</Text>
+  //             <TextInput
+  //               style={st.modalInput}
+  //               placeholder="todo 바꾸기"
+  //               onSubmitEditing={tempOnSubmitEditingFunction}
+  //             />
+  //           </View>
+  //         </View>
+  //       </Modal>
+  //     </View>
+  //   );
+  // };
 
   const modifyModal = async item => {
-    console.log('hmmmmmm?');
+    // console.log('hmmmmmm?');
     setVisibleControl(true);
-    console.log(item.id);
-    console.log(id);
-    console.log(visibleControl);
+    setId(item.id);
+    // console.log(item.id);
+    // console.log(id);
+    // console.log(visibleControl);
 
     // return <ModalViewer />;
   };
 
-  const modifyTodo = async item => {
-    let e, todoDecode, modalVisible;
+  // const modifyTodo = async item => {
+  //   let e, todoDecode, modalVisible;
 
-    try {
-      e = await AsyncStorage.getItem(item.id);
-      todoDecode = JSON.parse(e);
+  //   try {
+  //     e = await AsyncStorage.getItem(item.id);
+  //     todoDecode = JSON.parse(e);
 
-      todoDecode.modalVisible = !todoDecode.modalVisible;
-      modalVisible = todoDecode.modalVisible;
+  //     todoDecode.modalVisible = !todoDecode.modalVisible;
+  //     modalVisible = todoDecode.modalVisible;
 
-      await AsyncStorage.mergeItem(item.id, JSON.stringify(todoDecode));
-    } catch (error) {}
+  //     await AsyncStorage.mergeItem(item.id, JSON.stringify(todoDecode));
+  //   } catch (error) {}
 
-    return (
-      <View style={st.pointerE}>
-        <Modal
-          animationType="fade"
-          transparent={true}
-          visible={modalVisible}
-          onRequestClose={() => {
-            console.log('move?');
-          }}>
-          <View style={st.con1}>
-            <View style={st.con2}>
-              <Text>Hello Modal</Text>
-              <TextInput
-                style={st.modalInput}
-                placeholder="todo 바꾸기"
-                onSubmitEditing={tempOnSubmitEditingFunction}
-              />
-            </View>
-          </View>
-        </Modal>
-      </View>
-    );
-  };
+  //   return (
+  //     <View style={st.pointerE}>
+  //       <Modal
+  //         animationType="fade"
+  //         transparent={true}
+  //         visible={modalVisible}
+  //         onRequestClose={() => {
+  //           console.log('move?');
+  //         }}>
+  //         <View style={st.con1}>
+  //           <View style={st.con2}>
+  //             <Text>Hello Modal</Text>
+  //             <TextInput
+  //               style={st.modalInput}
+  //               placeholder="todo 바꾸기"
+  //               onSubmitEditing={tempOnSubmitEditingFunction}
+  //               // onFocus={() => (visibleControl === true ? 0 : 1)}
+  //             />
+  //           </View>
+  //         </View>
+  //       </Modal>
+  //     </View>
+  //   );
+  // };
+
+  // function RenderTodos({ item }) {
+  //   return (
+  //     <Pressable
+  //       style={styles.item}
+  //       key={item.id}
+  //       onPress={() => modifyModal(item)}
+  //       // onPress={() => modifyTodo(item)}
+  //       // onPress={() => consoleLike(item)}
+  //       // onPress={() => removeTodo(item)}
+  //       // onPress={() => modifiedTodo(item)}
+  //       // onPress={() => togleDoneCheck(item)}
+  //     >
+  //       <Text style={styles.title}>{item.todo}</Text>
+  //     </Pressable>
+  //   );
+  // }
 
   const RenderTodos = ({ item }) => {
     return (
@@ -186,11 +220,13 @@ const RenderFlatList = () => {
         keyExtractor={todo => todo.id}
         nestedScrollEnabled
         windowSize={4}
+        initialNumToRender={4}
+        // refreshing={false}
       />
 
       <View style={st.pointerE}>
         <Modal
-          animationType="fade"
+          animationType="slide"
           transparent={true}
           visible={visibleControl}
           onRequestClose={() => {

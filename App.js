@@ -21,6 +21,9 @@ const App = () => {
   const count = useRef(1);
   console.log(`App render ${count.current}`);
   count.current += 1;
+
+  const [itemAddChecker, setItemAddChecker] = useState(null);
+
   // const [visibleControl, setVisibleControl] = useState(undefined);
 
   // const f = async () => {
@@ -51,8 +54,16 @@ const App = () => {
       <Header style={{ flex: 1 }} />
       <InputTodo style={{ flex: 1 }} />
       {/* <VisibleControl.Provider value={[visibleControl, setVisibleControl]}> */}
+
       <RenderFlatList style={{ flex: 5 }} />
+
       {/* </VisibleControl.Provider> */}
+
+      {/* {itemAddChecker !== itemAddChecker ? (
+        <RenderFlatList style={{ flex: 5 }} />
+      ) : (
+        <Button onPress={clearDB} title="reset" style={{ flex: 1 }} />
+      )} */}
 
       <Button onPress={clearDB} title="reset" style={{ flex: 1 }} />
       {/* <ModalTemp /> */}
