@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Modal, TextInput, StyleSheet, View, Text } from 'react-native';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
+
+// import { VisibleControl } from '../utils/global-state';
 
 const tempAS = async item => {
   let e = await AsyncStorage.getAllKeys();
@@ -54,7 +56,10 @@ function ModifyModal() {
 }
 
 const modifyTodo = async item => {
+  // const [visibleControl, setVisibleControl] = useContext(VisibleControl);
+  // console.log(visibleControl);
   let e, todoDecode, modalVisible;
+
   try {
     e = await AsyncStorage.getItem(item.id);
     todoDecode = JSON.parse(e);
