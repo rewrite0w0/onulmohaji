@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { SafeAreaView, Button } from 'react-native';
 
 import {
@@ -8,20 +8,20 @@ import {
   Footer,
 } from './src/components/Components';
 
-import AsyncStorage from '@react-native-async-storage/async-storage';
-
-const clearDB = async () => {
-  await AsyncStorage.clear();
-};
+import { clearDB } from './src/utils';
+import { TodoContext } from './src/utils/TodosContext';
 
 const App = () => {
+  const [_todos, _setTodos] = useState([]);
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <Header style={{ flex: 1 }} />
-      <InputTodo style={{ flex: 1 }} />
 
-      <RenderFlatList style={{ flex: 5 }} />
-
+      <TodoContext.Provider value={[_todos, _setTodos]}>
+        <InputTodo style={{ flex: 1 }} />
+        <RenderFlatList style={{ flex: 5 }} />
+      </TodoContext.Provider>
       <Button onPress={clearDB} title="reset" style={{ flex: 1 }} />
 
       <Footer style={{ flex: 1 }} />

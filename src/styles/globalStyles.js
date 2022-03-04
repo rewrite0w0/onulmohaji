@@ -1,9 +1,13 @@
 import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
-  todo: {
+  header: {
     fontWeight: 'bold',
     fontSize: 50,
+  },
+
+  footer: {
+    textAlign: 'right',
   },
 
   title: {
@@ -79,10 +83,6 @@ const styles = StyleSheet.create({
 
   container2: {
     backgroundColor: 'pink',
-  },
-
-  footer: {
-    backgroundColor: 'violet',
   },
 
   con1: {

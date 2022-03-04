@@ -14,14 +14,18 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import removeTodo from './removeTodo';
 import togleDoneCheck from './togleDoneCheck';
-import consoleLike from './consoleLike';
+import consoleLike from '../utils';
 
 import {
-  sortingTodosStandardCreatedDate,
-  sortingTodosStandardModifiedDate,
+  sortingCreatedDate,
+  sortingModifiedDate,
+  sortingModifiedDateAndDoneCheck,
+  sortingDoneCheck,
+  other,
 } from './sortingFunctions';
 
 import { styles } from '../utils';
+import { TodoContext } from '../utils/TodosContext';
 
 // 여기에서 useState 렌더링 숫자가 무한정 오르네...
 
@@ -29,6 +33,8 @@ const RenderFlatList = () => {
   const [todos, setTodos] = useState([]);
   const [id, setId] = useState(null);
   const [visibleControl, setVisibleControl] = useState(false);
+
+  const [_todos, _setTodos] = useContext(TodoContext);
 
   const modalOnSubmitEditing = e => {
     let modifying = e.nativeEvent.text;
@@ -51,16 +57,21 @@ const RenderFlatList = () => {
     setId(item.id);
   };
 
+  // const memoizedValue = useMemo(() => computeExpensiveValue(a, b), [a, b]);
+
+  // const memoizedCallback = useCallback(() => {
+  //   doSomething(a, b);
+  // }, [a, b]);
+
   const RenderTodos = ({ item }) => {
     return (
       <Pressable
         style={styles.item}
         key={item.id}
-        onLongPress={() => modifyModal(item)}
+        // onLongPress={() => modifyModal(item)}
         // onPress={() => consoleLike(item)}
-        // onPress={() => removeTodo(item)}
-        // onPress={() => modifiedTodo(item)}
-        onPress={() => togleDoneCheck(item)}>
+        onPress={() => togleDoneCheck(item)}
+        onLongPress={() => removeTodo(item)}>
         <Text
           style={
             item.doneCheck === false ? styles.activeTodo : styles.doneTodo
@@ -72,6 +83,10 @@ const RenderFlatList = () => {
       </Pressable>
     );
   };
+
+  // 현재 방식은 추가될 때마다 배열을 새로 갈아낀다 생각하고 작성했는데,
+  // 무한으로 렌더링되는 것 같음
+  // 사용하는 위치가 문제인가?
 
   const outputTodos = async () => {
     let TODOS;
@@ -90,6 +105,10 @@ const RenderFlatList = () => {
         uuid: JSON.parse(el[1]).uuidv4,
       }));
       // 이게 문제네
+      // return _setTodos(TODOS_TO_OBJECT);
+
+      sortingCreatedDate(TODOS_TO_OBJECT);
+
       return setTodos(TODOS_TO_OBJECT);
 
       // 그럼 useState 쓰지 않고서 렌더링하면 하는 방법은?
@@ -102,7 +121,7 @@ const RenderFlatList = () => {
 
   const init = () => {
     outputTodos();
-    sortingTodosStandardModifiedDate(todos);
+    // outputTodos가 느리게 만드는 범인같은데...
   };
 
   init();
@@ -113,9 +132,8 @@ const RenderFlatList = () => {
         data={todos}
         renderItem={RenderTodos}
         keyExtractor={todo => todo.id}
-        nestedScrollEnabled
-        windowSize={7}
-        initialNumToRender={7}
+        initialNumToRender={5}
+        refreshing={false}
       />
 
       <View style={styles.pointerE}>
