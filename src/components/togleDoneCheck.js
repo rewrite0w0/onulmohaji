@@ -7,9 +7,9 @@ const togleDoneCheck = async item => {
     todoDecode = JSON.parse(e);
     todoDecode.doneCheck = !todoDecode.doneCheck;
 
-    todoDecode.modifiedDate = new Date();
+    todoDecode.modifiedDate = Date();
 
-    todoDecode.doneDate = todoDecode.doneCheck === true ? new Date() : null;
+    todoDecode.doneDate = todoDecode.doneCheck === true ? Date() : null;
 
     // new Date() 남발하는 기분인데 다른 방법은 없는가?
     // 스타일링을 어떻게 갱신하는가?

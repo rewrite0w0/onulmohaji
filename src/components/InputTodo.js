@@ -12,30 +12,33 @@ function InputTodo() {
   const encodeTodo = e => {
     let text = e.nativeEvent.text;
 
-    let value = JSON.stringify({
-      uuidv4: todoID.current,
-      todo: text,
-      createdDate: new Date(),
-      modifiedDate: new Date(),
-      doneDate: null,
-      doneCheck: false,
-      modalVisible: false,
-    });
+    const encodeTodoProcess = () => {
+      let value = JSON.stringify({
+        uuidv4: todoID.current,
+        todo: text,
+        createdDate: Date(),
+        modifiedDate: Date(),
+        doneDate: null,
+        doneCheck: false,
+      });
 
-    const todoObj = {
-      id: todoID.current,
-      values: value,
+      const todoObj = {
+        id: todoID.current,
+        values: value,
+      };
+
+      AsyncStorage.setItem(todoObj.id, value);
+
+      e.currentTarget.clear();
+      todoID.current = uuidv4();
     };
 
-    AsyncStorage.setItem(todoObj.id, value);
-
-    e.currentTarget.clear();
-    todoID.current = uuidv4();
+    text === '' ? 0 : encodeTodoProcess();
   };
 
-  const count = useRef(1);
-  console.log(`inputTodo render: ${count.current}`);
-  count.current += 1;
+  // const count = useRef(1);
+  // console.log(`inputTodo render: ${count.current}`);
+  // count.current += 1;
 
   return (
     <SafeAreaView>
