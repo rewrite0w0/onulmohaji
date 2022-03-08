@@ -137,7 +137,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#2196F3',
   },
   pointerE: {
-    PointterEvents: 'box-only',
+    pointerEvents: 'auto',
     // PointterEvents: 'auto',
     // zIndex: 10000,
   },

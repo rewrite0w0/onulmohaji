@@ -56,6 +56,10 @@ const RenderFlatList = () => {
     setVisibleControl(false);
   };
 
+  const cancelModal = () => {
+    return setVisibleControl(false);
+  };
+
   const modifyModal = async item => {
     setVisibleControl(true);
     setCurrentId(item.id);
@@ -125,7 +129,10 @@ const RenderFlatList = () => {
   };
 
   return (
-    <SafeAreaView style={styles.flatListContainer}>
+    <SafeAreaView
+      style={styles.flatListContainer}
+      // onPressIn={cancelModal}
+    >
       <FlatList
         data={sortingTodos(_todos, sortTodos)}
         renderItem={renderTodos}
@@ -146,7 +153,8 @@ const RenderFlatList = () => {
               <Text></Text>
               <TextInput
                 style={styles.modalInput}
-                placeholder="오늘 이거하자"
+                placeholder="아, 오늘 이거하자"
+                autoFocus={true}
                 onSubmitEditing={modalOnSubmitEditing}
               />
             </View>
