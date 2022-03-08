@@ -1,9 +1,10 @@
 import styles from './styles/globalStyles';
-import clearDB from './utils/clearDB';
-import consoleLike from './utils/consoleLike';
+import ClearDbButton from './utils/ClearDbButton';
+// import { consoleAllGet, consoleDecoder } from './utils/consoleLike';
 
 module.exports = {
   styles,
-  clearDB,
-  consoleLike,
+  ClearDbButton,
+  // consoleAllGet,
+  // consoleDecoder,
 };

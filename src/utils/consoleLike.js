@@ -1,11 +1,20 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const consoleLike = async item => {
+const consoleDecoder = async item => {
   e = await AsyncStorage.getItem(item.id);
   todoDecode = JSON.parse(e);
   s = JSON.stringify(todoDecode);
   console.log(e);
-  console.log(todoDecode);
+  return console.log(todoDecode);
 };
 
-export default consoleLike;
+const consoleAllGet = async () => {
+  let e = await AsyncStorage.getAllKeys();
+  let m = await AsyncStorage.multiGet(e);
+  return m.length;
+};
+
+module.exports = {
+  consoleDecoder,
+  consoleAllGet,
+};

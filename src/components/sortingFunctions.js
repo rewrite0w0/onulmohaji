@@ -6,10 +6,19 @@ const sortingModifiedDate = todolist => {
   return todolist.sort((x, y) => (x.modifiedDate < y.modifiedDate ? 1 : -1));
 };
 
-// 또 필요한 정렬함수...
-const sortingModifiedDateAndDoneCheck = todolist => {
-  // todolist.sort((x, y) => (x.modifiedDate < y.modifiedDate ? 1 : -1));
+const sortingActiveOnly = todolist => {
+  return todolist
+    .filter(isActive => isActive.doneCheck === false)
+    .sort((x, y) => (x.modifiedDate < y.modifiedDate ? 1 : -1));
+};
 
+const sortingDoneOnly = todolist => {
+  return todolist
+    .filter(isDone => isDone.doneCheck === true)
+    .sort((x, y) => (x.modifiedDate < y.modifiedDate ? 1 : -1));
+};
+
+const sortingModifiedDateAndDoneCheck = todolist => {
   let filteringDoneFalse = todolist
     .filter(isDone => isDone.doneCheck === false)
     .sort((x, y) => (x.modifiedDate < y.modifiedDate ? 1 : -1));
@@ -18,7 +27,6 @@ const sortingModifiedDateAndDoneCheck = todolist => {
     .filter(isDone => isDone.doneCheck === true)
     .sort((x, y) => (x.modifiedDate < y.modifiedDate ? 1 : -1));
 
-  // console.log(filteringDoneFalse);
   let filteringDoneList = filteringDoneFalse.concat(filteringDoneTrue);
 
   return filteringDoneList;
@@ -48,4 +56,6 @@ module.exports = {
   sortingModifiedDateAndDoneCheck,
   sortingDoneCheck,
   other,
+  sortingActiveOnly,
+  sortingDoneOnly,
 };
