@@ -1,8 +1,8 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const removeTodo = async item => {
+const removeTodo = async itemID => {
   try {
-    await AsyncStorage.removeItem(item.id);
+    await AsyncStorage.removeItem(itemID);
     return true;
   } catch (error) {}
 };

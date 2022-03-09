@@ -85,14 +85,14 @@ const styles = StyleSheet.create({
     backgroundColor: 'pink',
   },
 
-  con1: {
+  centeredView: {
     flex: 1,
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
     // marginTop: 22,
   },
-  con2: {
+  modalView: {
     margin: 1,
     backgroundColor: 'white',
     borderRadius: 20,
@@ -110,6 +110,14 @@ const styles = StyleSheet.create({
     height: 100,
   },
 
+  modalButtonsContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    direction: 'rtl',
+    width: '80%',
+    paddingBottom: 0.5,
+  },
+
   con3: {
     flex: 1,
     flexDirection: 'row',
@@ -120,7 +128,7 @@ const styles = StyleSheet.create({
   modalInput: {
     height: 42,
     width: 250,
-    margin: 12,
+    margin: 8,
     borderWidth: 1,
     padding: 10,
     borderColor: 'skyblue',
@@ -136,10 +144,13 @@ const styles = StyleSheet.create({
   buttonClose: {
     backgroundColor: '#2196F3',
   },
-  pointerE: {
-    pointerEvents: 'auto',
-    // PointterEvents: 'auto',
-    // zIndex: 10000,
+  modalContainer: {
+    // pointerEvents: 'box-none',
+    // pointerEvents: 'box-only',
+    // pointerEvents: 'none',
+    // pointerEvents: 'auto',
+    zIndex: 99,
+    backgroundColor: 'cyan',
   },
 });
 

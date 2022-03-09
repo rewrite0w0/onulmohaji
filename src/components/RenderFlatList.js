@@ -8,6 +8,7 @@ import {
   View,
   Modal,
   TextInput,
+  Button,
 } from 'react-native';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -33,7 +34,7 @@ import { SortConText, TodoContext } from '../utils/contexts';
 // 1 유력..
 
 const RenderFlatList = () => {
-  const [todos, setTodos] = useState([]);
+  // const [todos, setTodos] = useState([]);
   const [currentId, setCurrentId] = useState(null);
   const [visibleControl, setVisibleControl] = useState(false);
 
@@ -43,17 +44,21 @@ const RenderFlatList = () => {
   const modalOnSubmitEditing = e => {
     let modifying = e.nativeEvent.text;
 
-    (async () => {
-      let e = await AsyncStorage.getItem(currentId);
-      let todoDecode = JSON.parse(e);
-      todoDecode.todo = modifying;
-      todoDecode.modifiedDate = Date();
+    const modifyingProcess = () => {
+      (async () => {
+        let e = await AsyncStorage.getItem(currentId);
+        let todoDecode = JSON.parse(e);
+        todoDecode.todo = modifying;
+        todoDecode.modifiedDate = Date();
 
-      await AsyncStorage.mergeItem(currentId, JSON.stringify(todoDecode));
-    })();
+        await AsyncStorage.mergeItem(currentId, JSON.stringify(todoDecode));
+      })();
 
-    e.currentTarget.clear();
-    setVisibleControl(false);
+      e.currentTarget.clear();
+      setVisibleControl(false);
+    };
+
+    modifying === '' ? setVisibleControl(false) : modifyingProcess();
   };
 
   const cancelModal = () => {
@@ -132,7 +137,7 @@ const RenderFlatList = () => {
     <SafeAreaView
       style={styles.flatListContainer}
       // onPressIn={cancelModal}
-    >
+      onPress={() => console.log('move? out')}>
       <FlatList
         data={sortingTodos(_todos, sortTodos)}
         renderItem={renderTodos}
@@ -140,23 +145,42 @@ const RenderFlatList = () => {
         initialNumToRender={5}
       />
 
-      <View style={styles.pointerE}>
+      <View style={styles.modalContainer}>
         <Modal
-          animationType="slide"
+          animationType="fade"
           transparent={true}
           visible={visibleControl}
           onRequestClose={() => {
             setVisibleControl(false);
-          }}>
-          <View style={styles.con1}>
-            <View style={styles.con2}>
-              <Text></Text>
+          }}
+          style={{ zIndex: -1 }}>
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
               <TextInput
                 style={styles.modalInput}
-                placeholder="아, 오늘 이거하자"
+                placeholder="오늘 이거로 하자"
                 autoFocus={true}
                 onSubmitEditing={modalOnSubmitEditing}
               />
+              <View style={styles.modalButtonsContainer}>
+                <View style={{ flex: 0.5 }}>
+                  <Button
+                    title="삭제"
+                    color="gray"
+                    onPress={() => {
+                      removeTodo(currentId);
+                      setVisibleControl(false);
+                    }}
+                  />
+                </View>
+                <View style={{ flex: 0.5 }}>
+                  <Button
+                    title="취소"
+                    color="pink"
+                    onPress={() => setVisibleControl(false)}
+                  />
+                </View>
+              </View>
             </View>
           </View>
         </Modal>
