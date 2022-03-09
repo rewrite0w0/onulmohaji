@@ -149,8 +149,6 @@ const styles = StyleSheet.create({
     // pointerEvents: 'box-only',
     // pointerEvents: 'none',
     // pointerEvents: 'auto',
-    zIndex: 99,
-    backgroundColor: 'cyan',
   },
 });
 

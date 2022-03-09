@@ -61,7 +61,7 @@ const RenderFlatList = () => {
     modifying === '' ? setVisibleControl(false) : modifyingProcess();
   };
 
-  const cancelModal = () => {
+  const closeModal = () => {
     return setVisibleControl(false);
   };
 
@@ -134,10 +134,7 @@ const RenderFlatList = () => {
   };
 
   return (
-    <SafeAreaView
-      style={styles.flatListContainer}
-      // onPressIn={cancelModal}
-      onPress={() => console.log('move? out')}>
+    <View style={styles.flatListContainer} onPressIn={closeModal}>
       <FlatList
         data={sortingTodos(_todos, sortTodos)}
         renderItem={renderTodos}
@@ -152,8 +149,7 @@ const RenderFlatList = () => {
           visible={visibleControl}
           onRequestClose={() => {
             setVisibleControl(false);
-          }}
-          style={{ zIndex: -1 }}>
+          }}>
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
               <TextInput
@@ -185,7 +181,7 @@ const RenderFlatList = () => {
           </View>
         </Modal>
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
 
