@@ -1,6 +1,6 @@
 {
-  "name": "react_native_todo_list",
-  "version": "0.0.1",
+  "name": "onulmohaji",
+  "version": "0.0.4",
   "private": true,
   "scripts": {
     "android": "react-native run-android",
